@@ -1,0 +1,15 @@
+# Python
+env/
+*.pyc
+__pycache__/
+*.pkl
+
+# Node.js
+node_modules/
+dist/
+.vite/
+
+# System/IDE
+.DS_Store
+Thumbs.db
+.vscode/
