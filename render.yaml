@@ -5,3 +5,10 @@ services:
     rootDir: backend/api
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
+
+  - type: web
+    name: DiamondMind Frontend
+    runtime: node
+    rootDir: frontend/frontend  # <-- update if your frontend path is different!
+    buildCommand: npm install && npm run build
+    startCommand: npm run start  # Or use: npx serve -s build
