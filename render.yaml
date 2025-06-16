@@ -1,9 +1,6 @@
 services:
   - type: web
-    name: diamondmind-backend
-    env: python
-    buildCommand: ""
+    name: DiamondMind Backend
+    rootDir: backend/api
+    buildCommand: pip install -r requirements.txt
     startCommand: python app.py
-    envVars:
-      - key: PORT
-        value: 10000
