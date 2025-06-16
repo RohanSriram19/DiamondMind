@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+/* Make sure Tailwind's base styles load first */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* App-wide background and font settings */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a174e 0%, #133b5c 100%);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+input, select, textarea {
+  background: #fff;
+  color: #172554;
+  border-radius: 0.5rem;
+}
+
+::placeholder {
+  color: #888;
+  opacity: 1;
+}

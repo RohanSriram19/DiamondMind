@@ -10,9 +10,12 @@ const initialFeatures = {
   p_throws: "R",
   balls: "",
   strikes: "",
+  outs_when_up: "",
+  bat_score: "",
+  fld_score: "",
 };
 
-export default function PitchTypePredictor() {
+export default function PitchOutcomePredictor() {
   const [features, setFeatures] = useState(initialFeatures);
   const [prediction, setPrediction] = useState("");
 
@@ -23,14 +26,14 @@ export default function PitchTypePredictor() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const featureOrder = [
-      "release_speed", "release_pos_x", "release_pos_z", "zone",
-      "stand", "p_throws", "balls", "strikes"
+      "release_speed", "release_pos_x", "release_pos_z", "zone", "stand", "p_throws",
+      "balls", "strikes", "outs_when_up", "bat_score", "fld_score"
     ];
     const featureArray = featureOrder.map(f => features[f]);
-    const response = await axios.post("http://127.0.0.1:5000/predict/type", {
+    const response = await axios.post("http://127.0.0.1:5000/predict/outcome", {
       features: featureArray,
     });
-    setPrediction(response.data.pitch_type_prediction || response.data.error);
+    setPrediction(response.data.pitch_outcome_prediction || response.data.error);
   };
 
   return (
@@ -38,7 +41,7 @@ export default function PitchTypePredictor() {
       onSubmit={handleSubmit}
       className="p-6 rounded-2xl bg-[#222c47]/90 shadow-xl ring-2 ring-yellow-200 mb-4"
     >
-      <h2 className="text-2xl font-bold mb-3 text-yellow-300 drop-shadow">Pitch Type Predictor</h2>
+      <h2 className="text-2xl font-bold mb-3 text-yellow-300 drop-shadow">Pitch Outcome Predictor</h2>
       <div className="grid grid-cols-2 gap-3">
         <label>
           <span className="block mb-1">Release Speed (mph)</span>
@@ -91,6 +94,24 @@ export default function PitchTypePredictor() {
           <input type="text" inputMode="decimal" min="0" max="2" name="strikes"
             value={features.strikes} onChange={handleChange}
             placeholder="e.g. 1" className="border p-2 w-full" />
+        </label>
+        <label>
+          <span className="block mb-1">Outs When Up</span>
+          <input type="text" inputMode="decimal" name="outs_when_up"
+            value={features.outs_when_up} onChange={handleChange}
+            placeholder="e.g. 1" className="border p-2 w-full" />
+        </label>
+        <label>
+          <span className="block mb-1">Batter Score</span>
+          <input type="text" inputMode="decimal" name="bat_score"
+            value={features.bat_score} onChange={handleChange}
+            placeholder="e.g. 2" className="border p-2 w-full" />
+        </label>
+        <label>
+          <span className="block mb-1">Fielding Score</span>
+          <input type="text" inputMode="decimal" name="fld_score"
+            value={features.fld_score} onChange={handleChange}
+            placeholder="e.g. 2" className="border p-2 w-full" />
         </label>
       </div>
       <button

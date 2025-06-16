@@ -1,4 +1,3 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,7 +5,14 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: "#ffd700"
+      },
+      fontFamily: {
+        sans: ["Inter", "Segoe UI", "Arial", "sans-serif"]
+      }
+    },
   },
   plugins: [],
 }
