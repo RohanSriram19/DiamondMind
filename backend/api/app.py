@@ -1,8 +1,11 @@
+import os
 import joblib
 import numpy as np
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Allow frontend on different domain to call API
 
 # Load models and encoders
 type_model = joblib.load('../models/xgb_pitch_type_model.pkl')
@@ -49,21 +52,15 @@ def predict_pitch_outcome():
 
 @app.route('/predict/location', methods=['POST'])
 def predict_location():
-    print("---- /predict/location called ----")
     data = request.get_json()
     feature_dict = data.get('features', {})
-    print("Feature dict received:", feature_dict)
-    print("location_features:", location_features)
     features = [feature_dict.get(f, 0) for f in location_features]
-    print("Features vector built:", features)
     features = np.array(features).reshape(1, -1)
     try:
         pred_x = float(location_x_model.predict(features)[0])  # Convert to Python float
         pred_z = float(location_z_model.predict(features)[0])  # Convert to Python float
-        print("Predicted X:", pred_x, "Predicted Z:", pred_z)
         return jsonify({'plate_x': pred_x, 'plate_z': pred_z})
     except Exception as e:
-        print("Prediction failed with exception:", repr(e))
         return jsonify({'error': f'Prediction failed: {str(e)}'}), 500
 
 
@@ -99,4 +96,5 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # For Render/Railway, or fallback to 10000
+    app.run(debug=False, host="0.0.0.0", port=port)
